@@ -1,1 +1,9 @@
-# p2p-chat
+p2p-network
+=====
+
+An OTP application
+
+Build
+-----
+
+    $ rebar3 compile
