@@ -52,7 +52,7 @@ create_peers(Peer, Peers) ->
 	BestNetworkPeers = lists:map(fun(Id) -> closest_peer_in_network(Peer, Peers, Id) end, BestPeers),
 	NewPeers = lists:foldl(fun(NetworkPeer, NewPeers) -> add_peer(NetworkPeer, NewPeers) end, gb_trees:empty(), BestNetworkPeers),
 	PeersList = lists:foldl(fun({Id, {Username, ServerId, ClientId}}, PeersList) -> [#peer{id=Id, username=Username, server_pid=ServerId, client_pid=ClientId}|PeersList] end, [], gb_trees:to_list(Peers)),
-	lists:foldl(fun(OldPeer, New_peers2) -> add_peer(OldPeer, New_peers2) end, NewPeers, PeersList).
+	lists:foldl(fun(OldPeer, UpdatedPeers) -> add_peer(OldPeer, UpdatedPeers) end, NewPeers, PeersList).
 
 join() ->
 	io:fwrite("~s~n", ["Enter your username"]),
