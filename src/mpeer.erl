@@ -61,34 +61,34 @@ join() ->
 			SecretKey = rand:uniform(?max_secret_key),
 			Peer = init_peer(Username, SecretKey),
 
-			try discovery_server:join_network(Peer) of 
-				Response ->
-					case Response of 
-						{discover, RemotePid} -> 
-							case RemotePid of 
-								nil ->
-									io:format("To connect to the client use the following PID: ~w~n", [Peer#peer.client_pid]);
-								_ ->
-									case server:get_peers(RemotePid, #get_peers_request{mypid=self(), peer=Peer}) of 
-										#get_peers_response{peers=RemotePeers} ->
-											NewPeers = mpeer:create_peers(Peer, RemotePeers),
-											server:update_peers(Peer#peer.server_pid, #update_peers_request{peers=NewPeers, secret_key = SecretKey}),
-											io:format("To connect to the client use the following PID: ~w~n", [Peer#peer.client_pid]);
-										_ ->
-											io:format("Unable to get peers. Timeout.")
-									end
-							end;
+			try 
+				Response = discovery_server:join_network(Peer),
+				case Response of 
+					{discover, RemotePid} -> 
+						case RemotePid of 
+							nil ->
+								io:format("To connect to the client use the following PID: ~w~n", [Peer#peer.client_pid]);
+							_ ->
+								case server:get_peers(RemotePid, #get_peers_request{mypid=self(), peer=Peer}) of 
+									#get_peers_response{peers=RemotePeers} ->
+										NewPeers = mpeer:create_peers(Peer, RemotePeers),
+										server:update_peers(Peer#peer.server_pid, #update_peers_request{peers=NewPeers, secret_key = SecretKey}),
+										io:format("To connect to the client use the following PID: ~w~n", [Peer#peer.client_pid]);
+									_ ->
+										io:format("Unable to get peers. Timeout.")
+								end
+						end;
 
-						_ -> 
-							io:format("~p Discovery (~p) timed out~n", [self(), Peer])
-					end
+					_ -> 
+						io:format("~p Discovery (~p) timed out~n", [self(), Peer])
+				end
 		
 			catch 
 				_:_ ->
 					Pids = read_pids(),
 					Pid = find_available_peer(Pids),
-					NewPeers = mpeer:create_peers(Peer, client:get_peers(Peer, Pid)),
-					server:update_peers(Peer#peer.server_pid, #update_peers_request{peers=NewPeers, secret_key = SecretKey}),
+					Peers = mpeer:create_peers(Peer, client:get_peers(Peer, Pid)),
+					server:update_peers(Peer#peer.server_pid, #update_peers_request{peers=Peers, secret_key = SecretKey}),
 					io:format("To connect to the client use the following PID: ~w~n", [Peer#peer.client_pid])
 			end;
 
