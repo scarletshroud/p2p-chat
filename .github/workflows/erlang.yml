@@ -27,3 +27,6 @@ jobs:
            rebar3 lint
     - name: Format
       run: rebar3 steamroll
+    - name: Test
+      run: rebar3 shell
+            test:main().
