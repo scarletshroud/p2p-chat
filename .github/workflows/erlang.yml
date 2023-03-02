@@ -28,4 +28,4 @@ jobs:
     - name: Format
       run: rebar3 steamroll
     - name: Test
-      run: erl
+      run: rebar3 shell
