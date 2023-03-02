@@ -1,11 +1,11 @@
 {
   application,
-  p2p,
+  demo,
   [
     {description, "An OTP application"},
     {vsn, "0.1.0"},
     {registered, []},
-    {mod, {discovery_server_app, []}},
+    {mod, {demo_app, []}},
     {applications, [kernel, stdlib]},
     {env, []},
     {modules, []},

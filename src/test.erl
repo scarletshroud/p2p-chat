@@ -1,9 +1,9 @@
 -module(test).
 
--export([main/0]).
+-export([start/0]).
 
-main() ->
-  discovery_server:start_link(),
+start() ->
+  Response = discovery_server:start_link(),
   Egor = mpeer:join("Egor"),
   mpeer:join("Klim"),
   Max = mpeer:join("Max"),
@@ -21,4 +21,5 @@ main() ->
   client:send_message(John, "Today is a good day"),
   timer:sleep(1000),
   client:send_message(Danila, "I'm from Alaska"),
-  timer:sleep(1000).
+  timer:sleep(1000),
+  Response.
