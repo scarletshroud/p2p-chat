@@ -4,7 +4,9 @@
 -define(client_timeout, 2000).
 -define(max_hops, 8).
 
-% Запись, которая описывает пир.
+% Запись, которая описывает узел.
+% id - идентификатор
+% username - имя пользователя
 % server_pid - pid серверной части
 % client_pid - pid клиентской части
 -record(peer, {id, username, server_pid, client_pid}).

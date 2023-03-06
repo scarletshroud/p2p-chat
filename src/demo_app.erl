@@ -5,6 +5,6 @@
 -export([start/2, stop/1]).
 
 start(_StartType, _StartArgs) ->
-  test:start().
+  test:simple_test().
 
 stop(_State) -> ok.

@@ -5,32 +5,47 @@
 -include("definitions.hrl").
 -include("protocol.hrl").
 
-% connected_peers - подключенные пиры
+% Описание полей записи State
+% connected_peers - список подключенных пиров к discovery server
 -record(state, {connected_peers}).
 
 -export(
   [
+	  join_network/1,
     init/1,
     handle_call/3,
     handle_cast/2,
     handle_info/2,
     terminate/2,
     code_change/3,
-    join_network/1,
     stop/0,
-    start_link/0
+    start/0,
+    ping/0
   ]
 ).
 
-start_link() -> gen_server:start_link({local, ?MODULE}, ?MODULE, #state{connected_peers = []}, []).
+%%%
+%%% Public API
+%%%
+
+join_network(Peer) -> gen_server:call({?MODULE, 'discovery@127.0.0.1'}, Peer).
+
+ping() -> gen_server:call({?MODULE, 'discovery@127.0.0.1'}, ping).
+
+stop() -> gen_server:cast({?MODULE, 'discovery@127.0.0.1'}, stop).
+
+%%%
+%%% GenServer Implementation
+%%%
+
+start() -> gen_server:start_link({local, ?MODULE}, ?MODULE, #state{connected_peers = []}, []).
 
 init(State) -> {ok, State}.
 
-join_network(Peer) -> gen_server:call(?MODULE, Peer).
-
-stop() -> gen_server:cast(?MODULE, stop).
-
 handle_cast(stop, State) -> {stop, normal, State}.
+
+handle_call(ping, _From, State) ->
+  {reply, {ok, "Connection can be established"}, State};
 
 handle_call(Peer, _From, #state{connected_peers = ConnectedPeers}) ->
   Response =
@@ -43,11 +58,9 @@ handle_call(Peer, _From, #state{connected_peers = ConnectedPeers}) ->
     end,
   {reply, Response, #state{connected_peers = [Peer | ConnectedPeers]}}.
 
-
 handle_info(Info, State) ->
   error_logger:info_msg("~p~n", [Info]),
   {noreply, State}.
-
 
 code_change(_OldVsn, State, _Extra) -> {ok, State}.
 

@@ -49,7 +49,7 @@ recursive_find_closest(Peer, Id, _, Result, RemainingHops) ->
   case
   server:find_closest(
     Result#peer.server_pid,
-    #find_closest_request{mypid = Peer#peer.client_pid, peer = Peer, id = Id}
+    #find_closest_request{peer = Peer, id = Id}
   ) of
     #find_closest_response{result = NewResult} ->
       recursive_find_closest(Peer, Id, Result, NewResult, RemainingHops - 1);
@@ -79,7 +79,7 @@ create_peers(Peer, Peers) ->
       [],
       gb_trees:to_list(Peers)
     ),
-  lists:foldl(fun (OldPeer, New_peers2) -> add_peer(OldPeer, New_peers2) end, NewPeers, PeersList).
+  lists:foldl(fun (OldPeer, RefreshedPeers) -> add_peer(OldPeer, RefreshedPeers) end, NewPeers, PeersList).
 
 
 join(Username) ->
@@ -93,7 +93,7 @@ join(Username) ->
           nil -> Peer#peer.client_pid;
 
           _ ->
-            case server:get_peers(RemotePid, #get_peers_request{mypid = self(), peer = Peer}) of
+            case server:get_peers(RemotePid, #get_peers_request{peer = Peer}) of
               #get_peers_response{peers = RemotePeers} ->
                 NewPeers = mpeer:create_peers(Peer, RemotePeers),
                 server:update_peers(
@@ -149,9 +149,9 @@ init_peer(Username, SecretKey) ->
   Id = calc:id(),
   EmptyPeers = gb_trees:empty(),
   Keys = crypto:generate_key(rsa, {1024, 3}),
-  case server:start_link(EmptyPeers, SecretKey, Keys) of
+  case server:start(EmptyPeers, SecretKey, Keys) of
     {ok, ServerPid} ->
-      case client:start_link(Id, Username, SecretKey, ServerPid, Keys) of
+      case client:start(Id, Username, SecretKey, ServerPid, Keys) of
         {ok, ClientPid} ->
           Peers =
             add_peer(
