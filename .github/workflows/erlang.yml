@@ -27,8 +27,9 @@ jobs:
            rebar3 lint
     - name: Format
       run: rebar3 steamroll
-    - name: Test
+    - name: Release
       run: rebar3 release
+    - name: Demo
           echo $PATH
       shell: bash
           
