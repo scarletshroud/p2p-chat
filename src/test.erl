@@ -6,7 +6,7 @@
 
 simple_test() ->
 
-  Response = discovery_server:start(),
+  discovery_server:start(),
   Egor = mpeer:join("Egor"),
   Andrew = mpeer:join("Andrew"),
   Klim = mpeer:join("Klim"),
