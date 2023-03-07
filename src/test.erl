@@ -5,6 +5,7 @@
 simple_test() ->
 
   Response = discovery_server:start(),
+  io:fwrite("~w", [node()]),
   Egor = mpeer:join("Egor"),
   Andrew = mpeer:join("Andrew"),
   Klim = mpeer:join("Klim"),
