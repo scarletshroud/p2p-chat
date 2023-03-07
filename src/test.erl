@@ -2,20 +2,19 @@
 
 -include_lib("eunit/include/eunit.hrl").
 
-simple_test() ->
+-define(output_len, 621).
 
-  Response = discovery_server:start(),
-  io:format("~w", [node()]),
+simple_test() ->
+  discovery_server:start(),
   Egor = mpeer:join("Egor"),
   Andrew = mpeer:join("Andrew"),
   Klim = mpeer:join("Klim"),
   Evgeniy = mpeer:join("Evgeniy"),
   client:send_message(Egor, "Privet"),
-  timer:sleep(1000),
+  timer:sleep(1100),
   client:send_message(Andrew, "Hello"),
-  timer:sleep(1000),
+  timer:sleep(1100),
   client:send_message(Klim, "I'm from London"),
-  timer:sleep(1000),
+  timer:sleep(1100),
   client:send_message(Evgeniy, "I'm from Russia"),
-
-  Response.
+  ?assertEqual(?output_len, string:len(?capturedOutput)).
