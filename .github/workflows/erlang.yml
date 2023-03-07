@@ -30,7 +30,7 @@ jobs:
     - name: Release
       run: rebar3 release
     - name: Demo
-      run:
+      run: |
           cd /__w/p2p-chat/p2p-chat/_build/default/lib
           echo $PATH
       shell: bash
