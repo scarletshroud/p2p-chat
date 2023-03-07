@@ -5,7 +5,8 @@
 -define(output_len, 621).
 
 simple_test() ->
-  discovery_server:start(),
+
+  Response = discovery_server:start(),
   Egor = mpeer:join("Egor"),
   Andrew = mpeer:join("Andrew"),
   Klim = mpeer:join("Klim"),
@@ -18,4 +19,4 @@ simple_test() ->
   timer:sleep(1100),
   client:send_message(Evgeniy, "I'm from Russia"),
   timer:sleep(1100),
-  ?assertEqual(?output_len, string:len(?capturedOutput)).
+  ?assertEqual(?output_len, string:len(?capturedOutput)),
