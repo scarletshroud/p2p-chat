@@ -15,6 +15,6 @@ simple_test() ->
   timer:sleep(1000),
   client:send_message(Klim, "I'm from London"),
   timer:sleep(1000),
-  client:send_message(Evgeniy, "I'm from Russia")
+  client:send_message(Evgeniy, "I'm from Russia"),
 
   Response.
