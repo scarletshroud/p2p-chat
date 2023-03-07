@@ -3,9 +3,9 @@
 -include_lib("eunit/include/eunit.hrl").
 
 simple_test() ->
-  Response = net_kernel:start(['discovery@lab', longnames]),
+  Response = net_kernel:start([discovery, shortnames]),
 
-  spawn('discovery@lab', fun() ->
+  spawn(discovery, fun() ->
       discovery_server:start(),
       Egor = mpeer:join("Egor"),
       Andrew = mpeer:join("Andrew"),
