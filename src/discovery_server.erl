@@ -28,11 +28,11 @@
 %%% Public API
 %%%
 
-join_network(Peer) -> gen_server:call({?MODULE, demo_rel}, Peer).
+join_network(Peer) -> gen_server:call({?MODULE, node()}, Peer).
 
-ping() -> gen_server:call({?MODULE, demo_rel}, ping).
+ping() -> gen_server:call({?MODULE, node()}, ping).
 
-stop() -> gen_server:cast({?MODULE, demo_rel}, stop).
+stop() -> gen_server:cast({?MODULE, node()}, stop).
 
 %%%
 %%% GenServer Implementation
