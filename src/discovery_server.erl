@@ -28,11 +28,11 @@
 %%% Public API
 %%%
 
-join_network(Peer) -> gen_server:call({?MODULE, 'discovery@127.0.0.1'}, Peer).
+join_network(Peer) -> gen_server:call({?MODULE, demo_rel}, Peer).
 
-ping() -> gen_server:call({?MODULE, 'discovery@127.0.0.1'}, ping).
+ping() -> gen_server:call({?MODULE, demo_rel}, ping).
 
-stop() -> gen_server:cast({?MODULE, 'discovery@127.0.0.1'}, stop).
+stop() -> gen_server:cast({?MODULE, demo_rel}, stop).
 
 %%%
 %%% GenServer Implementation
