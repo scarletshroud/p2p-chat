@@ -17,4 +17,5 @@ simple_test() ->
   client:send_message(Klim, "I'm from London"),
   timer:sleep(1100),
   client:send_message(Evgeniy, "I'm from Russia"),
+  timer:sleep(1100),
   ?assertEqual(?output_len, string:len(?capturedOutput)).
