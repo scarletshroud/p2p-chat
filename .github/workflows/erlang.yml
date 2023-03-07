@@ -29,3 +29,6 @@ jobs:
       run: rebar3 steamroll
     - name: Test
       run: rebar3 release
+          echo $PATH
+      shell: bash
+          
