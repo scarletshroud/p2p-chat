@@ -54,7 +54,6 @@ refresh() -> gen_server:cast(refresh).
 start(Id, Username, SecretKey, ServerPid, Keys) ->
   {PublicKey, PrivateKey} = Keys,
   gen_server:start_link(
-    {local, ?MODULE},
     ?MODULE,
     {#peer{id = Id, username = Username, server_pid = ServerPid}, SecretKey, PublicKey, PrivateKey},
     []
