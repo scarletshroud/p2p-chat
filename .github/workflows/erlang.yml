@@ -32,5 +32,5 @@ jobs:
     - name: Demo
       run: |
           cd /__w/p2p-chat/p2p-chat/_build/default/rel/demo_rel/bin
-          ls
+          ./demo_rel-0.0.1
       shell: bash
