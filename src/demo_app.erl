@@ -11,11 +11,11 @@ start(_StartType, _StartArgs) ->
   Klim = mpeer:join("Klim"),
   Evgeniy = mpeer:join("Evgeniy"),
   client:send_message(Egor, "Privet"),
-  timer:sleep(1000),
+  timer:sleep(2000),
   client:send_message(Andrew, "Hello"),
-  timer:sleep(1000),
+  timer:sleep(2000),
   client:send_message(Klim, "I'm from London"),
-  timer:sleep(1000),
+  timer:sleep(2000),
   client:send_message(Evgeniy, "I'm from Russia"),
   Response.
 
