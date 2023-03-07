@@ -32,5 +32,5 @@ jobs:
     - name: Demo
       run: |
           cd /__w/p2p-chat/p2p-chat/_build/default/lib
-          echo $PATH
+          pwd
       shell: bash
